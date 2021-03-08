@@ -1,0 +1,19 @@
+<style>
+  input::after {
+    size: 100%;
+    content: attr(suggestion);
+    color: rgba(0, 0, 0, 0.5);
+  }
+</style>
+<input>
+<script>
+  function autocomplete(text) {
+    const suggestions = ['foo', 'bar', 'baz', 'supercalifragilisticexpialidocious'];
+    const [suggestion] = suggestions.filter((string) => string.startsWith(text));
+    return suggestion ? suggestion.replace(text, '') : '';
+  }
+  document.on('input', 'input', (_, el) => {
+    const suggestion = autocomplete(el.value);
+    el.setAttribute('suggestion', suggestion);
+  });
+</script>
