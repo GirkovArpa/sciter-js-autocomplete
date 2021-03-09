@@ -1,19 +1,46 @@
-<style>
-  input::after {
-    size: 100%;
-    content: attr(suggestion);
-    color: rgba(0, 0, 0, 0.5);
-  }
-</style>
-<input>
-<script>
-  function autocomplete(text) {
-    const suggestions = ['foo', 'bar', 'baz', 'supercalifragilisticexpialidocious'];
-    const [suggestion] = suggestions.filter((string) => string.startsWith(text));
-    return suggestion ? suggestion.replace(text, '') : '';
-  }
-  document.on('input', 'input', (_, el) => {
-    const suggestion = autocomplete(el.value);
-    el.setAttribute('suggestion', suggestion);
-  });
-</script>
+<!-- https://sciter.com/forums/topic/inputafter-jerkiness-sciter-js/#post-70227 -->
+<html>
+
+  <head>
+    <title>Test</title>
+    <style>
+      input {
+        font-size: 50px;
+        color: red;
+        font-weight: bold;
+        padding: 3px;
+        line-height: 1.4em;
+        text-shadow: 1px 0 0 blue;
+      }
+
+      input::marker {
+        size: *;
+        padding: 3px;
+        content: attr(suggestion);
+        color: rgb(255, 166, 0);
+        z-index: -1;
+        /*underneath content*/
+        line-height: 1.4em;
+        overflow: hidden;
+        text-shadow: transparent;
+      }
+    </style>
+    <script>
+      function autocomplete(text) {
+        if (!text) return "";
+        const suggestions = ['foo', 'bar', 'baz', 'supercalifragilisticexpialidocious'];
+        const [suggestion] = suggestions.filter((string) => string.startsWith(text));
+        return suggestion || "";
+      }
+      document.on('input', 'input', (_, el) => {
+        const suggestion = autocomplete(el.value);
+        el.setAttribute('suggestion', suggestion);
+      });
+    </script>
+  </head>
+
+  <body>
+    <input />
+  </body>
+
+</html>
